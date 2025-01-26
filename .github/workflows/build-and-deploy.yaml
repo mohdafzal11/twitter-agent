@@ -1,0 +1,34 @@
+name: Deploy to Azure Web App - Prod
+
+on:
+  push:
+    branches:
+      - main # Set your branch name here
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }} # Set your Azure credentials here
+
+      - name: 'Build and push image'
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+      - run: |
+          docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/decent-service:${{ github.sha }}
+          docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/decent-service:${{ github.sha }}
+
+      - uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'decent-service'
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_PROD }}
+          images: '${{ secrets.REGISTRY_LOGIN_SERVER }}/decent-service:${{ github.sha }}'
