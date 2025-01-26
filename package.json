@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "Env=DEV tsx watch --clear-screen=false src/index.ts | pino-pretty",
     "build": "rimraf dist && tsup",
-    "start": "ENV=PROD NEW_RELIC_APPLICATION_LOGGING_FORWARDING_ENABLED=true NEW_RELIC_APPLICATION_LOGGING_FORWARDING_MAX_SAMPLES_STORED=10000 NEW_RELIC_LOG_ENABLED=true NEW_RELIC_APP_NAME=decent-service NEW_RELIC_LICENSE_KEY=356e438580601e137d827e4c8bd3ca14FFFFNRAL node -r newrelic dist/index.js",
+    "start": "ENV=PROD NEW_RELIC_APPLICATION_LOGGING_FORWARDING_ENABLED=true NEW_RELIC_APPLICATION_LOGGING_FORWARDING_MAX_SAMPLES_STORED=10000 NEW_RELIC_LOG_ENABLED=true NEW_RELIC_APP_NAME=decent-service NEW_RELIC_LICENSE_KEY= node -r newrelic dist/index.js",
     "clean": "rimraf dist coverage",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
@@ -48,6 +48,7 @@
     "jsbi": "^3.1.4",
     "jsonfile": "^6.1.0",
     "jsonwebtoken": "^9.0.2",
+    "neo4j-driver": "^5.27.0",
     "newrelic": "^11.17.0",
     "node-cron": "^3.0.3",
     "openai": "^4.80.1",
